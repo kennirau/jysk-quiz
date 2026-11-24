@@ -30,7 +30,9 @@ export default function Home() {
           Answer {QUIZ_SIZE} questions about modern Java.
         </p>
         <Suspense
-          fallback={<p className="text-muted-foreground">Loading questions...</p>}
+          fallback={
+            <p className="text-muted-foreground">Loading questions...</p>
+          }
         >
           <RandomQuiz />
         </Suspense>

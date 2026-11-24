@@ -124,7 +124,10 @@
     "text": "What does this declaration do in Java 25?",
     "code": "import module java.base;",
     "options": [
-      { "id": 1, "text": "Imports all packages exported by the java.base module" },
+      {
+        "id": 1,
+        "text": "Imports all packages exported by the java.base module"
+      },
       { "id": 2, "text": "Declares that the file belongs to java.base" },
       { "id": 3, "text": "Adds java.base to the module path at runtime" },
       { "id": 4, "text": "Compile error: not valid Java syntax" }
@@ -231,8 +234,14 @@
     "id": 20,
     "text": "Why can you call IO.println(...) in Java 25 without any import?",
     "options": [
-      { "id": 1, "text": "IO is in java.lang, which is imported automatically" },
-      { "id": 2, "text": "IO is in java.io, which compact source files import" },
+      {
+        "id": 1,
+        "text": "IO is in java.lang, which is imported automatically"
+      },
+      {
+        "id": 2,
+        "text": "IO is in java.io, which compact source files import"
+      },
       { "id": 3, "text": "IO is a JShell-only helper" },
       { "id": 4, "text": "IO is a static import of System.out" }
     ],

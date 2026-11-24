@@ -83,7 +83,10 @@ export function QuizForm({ questions }: { questions: Question[] }) {
         </label>
       </div>
       {questions.map((q, i) => (
-        <fieldset key={q.id} className="min-w-0 rounded-md bg-card p-4 shadow-sm">
+        <fieldset
+          key={q.id}
+          className="min-w-0 rounded-md bg-card p-4 shadow-sm"
+        >
           <legend className="float-left mb-3 w-full">
             <span className="block text-xs font-semibold tracking-wide text-muted-foreground uppercase">
               Question {i + 1} of {questions.length}
