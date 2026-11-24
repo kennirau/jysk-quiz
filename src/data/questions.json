@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "text": "What year was JYSK founded?",
+    "options": [
+      { "id": 1, "text": "1959" },
+      { "id": 2, "text": "1979" },
+      { "id": 3, "text": "1989" },
+      { "id": 4, "text": "1999" }
+    ]
+  },
+  {
+    "id": 2,
+    "text": "In which country was JYSK founded?",
+    "options": [
+      { "id": 1, "text": "Sweden" },
+      { "id": 2, "text": "Norway" },
+      { "id": 3, "text": "Denmark" },
+      { "id": 4, "text": "Finland" }
+    ]
+  },
+  {
+    "id": 3,
+    "text": "Who founded JYSK?",
+    "options": [
+      { "id": 1, "text": "Lars Larsen" },
+      { "id": 2, "text": "Ingvar Kamprad" },
+      { "id": 3, "text": "Ole Kirk Christiansen" },
+      { "id": 4, "text": "Arne Jacobsen" }
+    ]
+  },
+  {
+    "id": 4,
+    "text": "What does the word \"jysk\" mean?",
+    "options": [
+      { "id": 1, "text": "Cosy" },
+      { "id": 2, "text": "Jutlandic" },
+      { "id": 3, "text": "Sleep" },
+      { "id": 4, "text": "Home" }
+    ]
+  },
+  {
+    "id": 5,
+    "text": "What is JYSK's logo symbol?",
+    "options": [
+      { "id": 1, "text": "A goose" },
+      { "id": 2, "text": "A bear" },
+      { "id": 3, "text": "A star" },
+      { "id": 4, "text": "A tree" }
+    ]
+  }
+]

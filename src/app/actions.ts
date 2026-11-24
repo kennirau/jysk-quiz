@@ -1,32 +1,26 @@
 "use server";
 
-import { QUESTION_COUNT, saveSubmission } from "@/lib/db";
+import { questions } from "@/lib/questions";
 
 export type SubmitResult = { ok: true } | { ok: false; error: string };
 
 export async function submitAnswers(
   answers: { questionId: number; optionId: number }[],
 ): Promise<SubmitResult> {
-  const isValidShape =
+  const isValid =
     Array.isArray(answers) &&
-    answers.length > 0 &&
-    answers.length <= QUESTION_COUNT &&
-    answers.every(
-      (a) => Number.isInteger(a?.questionId) && Number.isInteger(a?.optionId),
-    ) &&
-    new Set(answers.map((a) => a.questionId)).size === answers.length;
+    answers.length === questions.length &&
+    questions.every((q) =>
+      answers.some(
+        (a) =>
+          a?.questionId === q.id &&
+          q.options.some((o) => o.id === a?.optionId),
+      ),
+    );
 
-  if (!isValidShape)
-    return { ok: false, error: "Please answer all questions." };
+  if (!isValid) return { ok: false, error: "Please answer all questions." };
 
-  try {
-    await saveSubmission(answers);
-    return { ok: true };
-  } catch (err) {
-    console.error(err);
-    return {
-      ok: false,
-      error: "Could not save your answers. Please try again.",
-    };
-  }
+  // No storage yet; answers show up in the Vercel function logs.
+  console.log("Quiz submission", JSON.stringify(answers));
+  return { ok: true };
 }

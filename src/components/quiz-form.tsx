@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import type { Question } from "@/lib/db";
+import type { Question } from "@/lib/questions";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 
