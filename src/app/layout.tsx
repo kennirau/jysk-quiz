@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "JYSK Quiz",
-  description: "Answer 5 quick questions",
+  description: "Test your Java 25 knowledge",
 };
 
 export const viewport: Viewport = {

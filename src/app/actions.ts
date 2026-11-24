@@ -1,6 +1,6 @@
 "use server";
 
-import { questions } from "@/lib/questions";
+import { questions, QUIZ_SIZE } from "@/lib/questions";
 
 export type SubmitResult =
   | { ok: true; correct: number; total: number }
@@ -26,20 +26,21 @@ export async function submitAnswers(
 
   const isValid =
     Array.isArray(answers) &&
-    answers.length === questions.length &&
-    questions.every((q) =>
-      answers.some(
-        (a) =>
-          a?.questionId === q.id && q.options.some((o) => o.id === a?.optionId),
+    answers.length === QUIZ_SIZE &&
+    new Set(answers.map((a) => a?.questionId)).size === answers.length &&
+    answers.every((a) =>
+      questions.some(
+        (q) =>
+          q.id === a?.questionId && q.options.some((o) => o.id === a?.optionId),
       ),
     );
 
   if (!isValid) return { ok: false, error: "Please answer all questions." };
 
   // No storage yet; answers show up in the Vercel function logs.
-  const correct = questions.filter((q) =>
-    answers.some(
-      (a) => a.questionId === q.id && a.optionId === q.correctOptionId,
+  const correct = answers.filter((a) =>
+    questions.some(
+      (q) => q.id === a.questionId && q.correctOptionId === a.optionId,
     ),
   ).length;
 
@@ -50,8 +51,8 @@ export async function submitAnswers(
       consentedAt: new Date().toISOString(),
       answers,
       correct,
-      total: questions.length,
+      total: answers.length,
     }),
   );
-  return { ok: true, correct, total: questions.length };
+  return { ok: true, correct, total: answers.length };
 }

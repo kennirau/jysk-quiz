@@ -83,7 +83,7 @@ export function QuizForm({ questions }: { questions: Question[] }) {
         </label>
       </div>
       {questions.map((q, i) => (
-        <fieldset key={q.id} className="rounded-md bg-card p-4 shadow-sm">
+        <fieldset key={q.id} className="min-w-0 rounded-md bg-card p-4 shadow-sm">
           <legend className="float-left mb-3 w-full">
             <span className="block text-xs font-semibold tracking-wide text-muted-foreground uppercase">
               Question {i + 1} of {questions.length}
@@ -92,6 +92,11 @@ export function QuizForm({ questions }: { questions: Question[] }) {
               {q.text}
             </span>
           </legend>
+          {q.code && (
+            <pre className="clear-left mb-3 rounded-md bg-[#1e1e1e] p-3 font-mono text-[13px] leading-relaxed wrap-anywhere whitespace-pre-wrap text-[#d4d4d4]">
+              <code>{q.code}</code>
+            </pre>
+          )}
           <RadioGroup
             className="clear-left"
             value={answers[q.id] !== undefined ? String(answers[q.id]) : ""}

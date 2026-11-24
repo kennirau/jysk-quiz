@@ -1,6 +1,14 @@
 import { QuizForm } from "@/components/quiz-form";
-import { publicQuestions } from "@/lib/questions";
+import { pickRandomQuestions, QUIZ_SIZE } from "@/lib/questions";
 import Image from "next/image";
+import { connection } from "next/server";
+import { Suspense } from "react";
+
+async function RandomQuiz() {
+  // Opt out of prerendering so each visitor gets a new random set.
+  await connection();
+  return <QuizForm questions={pickRandomQuestions()} />;
+}
 
 export default function Home() {
   return (
@@ -17,11 +25,15 @@ export default function Home() {
         </div>
       </header>
       <main className="mx-auto flex w-full max-w-md flex-1 flex-col px-4 pt-5">
-        <h1 className="text-2xl font-bold text-primary">Quiz</h1>
+        <h1 className="text-2xl font-bold text-primary">Java 25 Quiz</h1>
         <p className="mb-5 text-muted-foreground">
-          Answer {publicQuestions.length} quick questions.
+          Answer {QUIZ_SIZE} questions about modern Java.
         </p>
-        <QuizForm questions={publicQuestions} />
+        <Suspense
+          fallback={<p className="text-muted-foreground">Loading questions...</p>}
+        >
+          <RandomQuiz />
+        </Suspense>
       </main>
     </>
   );
