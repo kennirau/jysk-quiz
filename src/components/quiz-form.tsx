@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 export function QuizForm({ questions }: { questions: Question[] }) {
   const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [score, setScore] = useState<{ correct: number; total: number }>();
   const [isPending, startTransition] = useTransition();
 
   const allAnswered = questions.every((q) => answers[q.id] !== undefined);
@@ -23,18 +23,20 @@ export function QuizForm({ questions }: { questions: Question[] }) {
       const result = await submitAnswers(
         questions.map((q) => ({ questionId: q.id, optionId: answers[q.id] })),
       );
-      if (result.ok) setSubmitted(true);
+      if (result.ok) setScore({ correct: result.correct, total: result.total });
       else toast.error(result.error);
     });
   }
 
-  if (submitted) {
+  if (score) {
     return (
       <Card>
         <CardHeader>
           <CardTitle>Thank you!</CardTitle>
         </CardHeader>
-        <CardContent>Your answers have been submitted.</CardContent>
+        <CardContent>
+          You got {score.correct} of {score.total} correct.
+        </CardContent>
       </Card>
     );
   }
