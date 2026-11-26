@@ -22,7 +22,9 @@ export type LeaderboardEntry = {
 type ScoreEntry = LeaderboardEntry & { player: string };
 
 // Vercel's filesystem is read-only, so production uses Vercel Blob when it is connected.
-const isBlobStorageEnabled = () => Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+// Newer Blob stores authenticate via OIDC + BLOB_STORE_ID instead of a read/write token.
+const isBlobStorageEnabled = () =>
+  Boolean(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
 const BLOB_PREFIX = "results/";
 
 const RESULTS_FILE =
@@ -94,7 +96,14 @@ async function readBlobEntries(): Promise<ScoreEntry[]> {
 }
 
 export async function saveResult(result: QuizResult): Promise<void> {
-  if (!isBlobStorageEnabled()) return saveToFile(result);
+  if (!isBlobStorageEnabled()) {
+    if (process.env.VERCEL) {
+      throw new Error(
+        "No Vercel Blob store connected (BLOB_READ_WRITE_TOKEN/BLOB_STORE_ID missing)",
+      );
+    }
+    return saveToFile(result);
+  }
   await put(toBlobPath(result), JSON.stringify(result), {
     access: "private",
     contentType: "application/json",
