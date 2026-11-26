@@ -88,6 +88,9 @@ export async function submitAnswers(
     correct,
     total: answers.length,
     timeMs,
-    leaderboard: await getTopResults(5),
+    leaderboard: await getTopResults(5).catch((err) => {
+      console.error("Could not load leaderboard", err);
+      return [];
+    }),
   };
 }
