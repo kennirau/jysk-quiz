@@ -1,47 +1,124 @@
 "use client";
 
-import { submitAnswers } from "@/app/actions";
+import { startQuiz, submitAnswers, type SubmitResult } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import type { Question } from "@/lib/questions";
-import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function formatTime(ms: number) {
+  return `${(ms / 1000).toFixed(1)} s`;
+}
 
 export function QuizForm({ questions }: { questions: Question[] }) {
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
   const [answers, setAnswers] = useState<Record<number, number>>({});
-  const [score, setScore] = useState<{ correct: number; total: number }>();
+  const [result, setResult] = useState<Extract<SubmitResult, { ok: true }>>();
   const [isPending, startTransition] = useTransition();
+  const timerStarted = useRef<Promise<string> | null>(null);
+  const router = useRouter();
+
+  const [shownQuestions, setShownQuestions] = useState(questions);
+  if (questions !== shownQuestions) {
+    setShownQuestions(questions);
+    setEmail("");
+    setConsent(false);
+    setAnswers({});
+    setResult(undefined);
+  }
+
+  useEffect(() => {
+    window.scrollTo({ top: 0 });
+  }, [questions]);
 
   const emailValid = EMAIL_PATTERN.test(email.trim());
   const allAnswered = questions.every((q) => answers[q.id] !== undefined);
   const answeredCount = Object.keys(answers).length;
 
+  function selectAnswer(questionId: number, optionId: number) {
+    timerStarted.current ??= startQuiz();
+    setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
+  }
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!allAnswered || !emailValid || !consent) return;
     startTransition(async () => {
-      const result = await submitAnswers(
+      const startToken = await timerStarted.current;
+      const res = await submitAnswers(
         email,
         consent,
+        startToken ?? "",
         questions.map((q) => ({ questionId: q.id, optionId: answers[q.id] })),
       );
-      if (result.ok) setScore({ correct: result.correct, total: result.total });
-      else toast.error(result.error);
+      if (res.ok) setResult(res);
+      else toast.error(res.error);
     });
   }
 
-  if (score) {
+  function restart() {
+    timerStarted.current = null;
+    // Re-renders the server page, which picks a new random set of questions.
+    startTransition(() => router.refresh());
+  }
+
+  if (result) {
     return (
-      <section className="rounded-md bg-card p-6 text-center shadow-sm">
-        <h2 className="text-2xl font-bold text-primary">Thank you!</h2>
-        <p className="mt-4 text-5xl font-black text-primary">
-          {score.correct}/{score.total}
-        </p>
-        <p className="mt-2 text-muted-foreground">correct answers</p>
+      <section className="flex flex-col gap-4">
+        <div className="rounded-md bg-card p-6 text-center shadow-sm">
+          <h2 className="text-2xl font-bold text-primary">Thank you!</h2>
+          <div className="mt-4 grid grid-cols-2 gap-4">
+            <div>
+              <p className="text-4xl font-black text-primary">
+                {result.correct}/{result.total}
+              </p>
+              <p className="text-sm text-muted-foreground">correct</p>
+            </div>
+            <div>
+              <p className="text-4xl font-black text-primary">
+                {formatTime(result.timeMs)}
+              </p>
+              <p className="text-sm text-muted-foreground">time</p>
+            </div>
+          </div>
+        </div>
+        {result.leaderboard.length > 0 && (
+          <div className="rounded-md bg-card p-4 shadow-sm">
+            <h3 className="mb-3 text-lg font-bold text-primary">Top 5</h3>
+            <ol className="flex flex-col gap-2">
+              {result.leaderboard.map((entry, i) => (
+                <li
+                  key={i}
+                  className="flex items-center gap-3 rounded-md border-2 border-border px-3 py-2"
+                >
+                  <span className="w-5 text-center font-black text-primary">
+                    {i + 1}
+                  </span>
+                  <span className="min-w-0 flex-1 truncate">{entry.name}</span>
+                  <span className="font-semibold">
+                    {entry.correct}/{entry.total}
+                  </span>
+                  <span className="w-16 text-right text-sm text-muted-foreground tabular-nums">
+                    {formatTime(entry.timeMs)}
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
+        <Button
+          type="button"
+          onClick={restart}
+          disabled={isPending}
+          className="h-12 w-full rounded-md text-base font-bold"
+        >
+          {isPending ? "Loading..." : "Start new quiz"}
+        </Button>
       </section>
     );
   }
@@ -103,9 +180,7 @@ export function QuizForm({ questions }: { questions: Question[] }) {
           <RadioGroup
             className="clear-left"
             value={answers[q.id] !== undefined ? String(answers[q.id]) : ""}
-            onValueChange={(value) =>
-              setAnswers((prev) => ({ ...prev, [q.id]: Number(value) }))
-            }
+            onValueChange={(value) => selectAnswer(q.id, Number(value))}
           >
             {q.options.map((o) => (
               <label

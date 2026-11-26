@@ -1,14 +1,32 @@
 "use server";
 
 import { questions, QUIZ_SIZE } from "@/lib/questions";
+import {
+  getTopResults,
+  saveResult,
+  type LeaderboardEntry,
+} from "@/lib/results";
+import { createStartToken, readStartToken } from "@/lib/timer";
 
 export type SubmitResult =
-  | { ok: true; correct: number; total: number }
+  | {
+      ok: true;
+      correct: number;
+      total: number;
+      timeMs: number;
+      leaderboard: LeaderboardEntry[];
+    }
   | { ok: false; error: string };
+
+// Called on the first answer click; the signed token stops clients faking the start time.
+export async function startQuiz() {
+  return createStartToken(Date.now());
+}
 
 export async function submitAnswers(
   email: string,
   consent: boolean,
+  startToken: string,
   answers: { questionId: number; optionId: number }[],
 ): Promise<SubmitResult> {
   if (consent !== true) {
@@ -37,22 +55,39 @@ export async function submitAnswers(
 
   if (!isValid) return { ok: false, error: "Please answer all questions." };
 
-  // No storage yet; answers show up in the Vercel function logs.
+  const startedAt = readStartToken(startToken);
+  if (startedAt === null) {
+    return {
+      ok: false,
+      error: "Your quiz timer was lost. Please reload and try again.",
+    };
+  }
+  const timeMs = Date.now() - startedAt;
+
   const correct = answers.filter((a) =>
     questions.some(
       (q) => q.id === a.questionId && q.correctOptionId === a.optionId,
     ),
   ).length;
 
-  console.log(
-    "Quiz submission",
-    JSON.stringify({
+  try {
+    await saveResult({
       email: normalizedEmail,
-      consentedAt: new Date().toISOString(),
-      answers,
       correct,
       total: answers.length,
-    }),
-  );
-  return { ok: true, correct, total: answers.length };
+      timeMs,
+      answers,
+      submittedAt: new Date().toISOString(),
+    });
+  } catch (err) {
+    console.error("Could not save quiz result", err);
+  }
+
+  return {
+    ok: true,
+    correct,
+    total: answers.length,
+    timeMs,
+    leaderboard: await getTopResults(5),
+  };
 }
