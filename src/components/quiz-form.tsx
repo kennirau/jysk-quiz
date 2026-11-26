@@ -20,7 +20,7 @@ export function QuizForm({ questions }: { questions: Question[] }) {
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [result, setResult] = useState<Extract<SubmitResult, { ok: true }>>();
   const [isPending, startTransition] = useTransition();
-  const timerStarted = useRef<Promise<string> | null>(null);
+  const timerStarted = useRef<Promise<string | null> | null>(null);
   const router = useRouter();
 
   const [shownQuestions, setShownQuestions] = useState(questions);
@@ -41,7 +41,7 @@ export function QuizForm({ questions }: { questions: Question[] }) {
   const answeredCount = Object.keys(answers).length;
 
   function selectAnswer(questionId: number, optionId: number) {
-    timerStarted.current ??= startQuiz();
+    timerStarted.current ??= startQuiz().catch(() => null);
     setAnswers((prev) => ({ ...prev, [questionId]: optionId }));
   }
 
@@ -50,14 +50,25 @@ export function QuizForm({ questions }: { questions: Question[] }) {
     if (!allAnswered || !emailValid || !consent) return;
     startTransition(async () => {
       const startToken = await timerStarted.current;
-      const res = await submitAnswers(
-        email,
-        consent,
-        startToken ?? "",
-        questions.map((q) => ({ questionId: q.id, optionId: answers[q.id] })),
-      );
-      if (res.ok) setResult(res);
-      else toast.error(res.error);
+      if (!startToken) {
+        timerStarted.current = null;
+        toast.error(
+          "Could not start the quiz timer. Please reload and try again.",
+        );
+        return;
+      }
+      try {
+        const res = await submitAnswers(
+          email,
+          consent,
+          startToken,
+          questions.map((q) => ({ questionId: q.id, optionId: answers[q.id] })),
+        );
+        if (res.ok) setResult(res);
+        else toast.error(res.error);
+      } catch {
+        toast.error("Could not send your answers. Please try again.");
+      }
     });
   }
 
