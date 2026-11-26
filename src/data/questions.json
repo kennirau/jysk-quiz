@@ -1,250 +1,1079 @@
 [
   {
     "id": 1,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "Object o = 42;\nString s = switch (o) {\n    case Integer i when i > 40 -> \"big\";\n    case Integer i -> \"small\";\n    default -> \"other\";\n};\nIO.println(s);",
+    "text": "Java 25: What does this print?",
+    "code": "Object o = 42;\nString s = switch (o) {\n    case Integer i when i > 40 -> \"big\";\n    case Integer i -> \"small\";\n    default -> \"other\";\n};\nSystem.out.println(s);",
     "options": [
       { "id": 1, "text": "big" },
       { "id": 2, "text": "small" },
       { "id": 3, "text": "other" },
       { "id": 4, "text": "Compile error" }
-    ]
+    ],
+    "correctOptionId": 1
   },
   {
     "id": 2,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "record Point(int x, int y) {}\n\nObject o = new Point(3, 4);\nif (o instanceof Point(int x, int y)) {\n    IO.println(x * y);\n}",
+    "text": "Java 25: What does this print?",
+    "code": "Object value = 12;\nString result = switch (value) {\n    case Integer n when n < 0 -> \"negative\";\n    case Integer n -> \"non-negative\";\n    default -> \"not an integer\";\n};\nSystem.out.println(result);",
     "options": [
-      { "id": 1, "text": "7" },
-      { "id": 2, "text": "12" },
-      { "id": 3, "text": "34" },
+      { "id": 1, "text": "negative" },
+      { "id": 2, "text": "non-negative" },
+      { "id": 3, "text": "not an integer" },
       { "id": 4, "text": "Compile error" }
-    ]
+    ],
+    "correctOptionId": 2
   },
   {
     "id": 3,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "record Pair(Object a, Object b) {}\n\nObject o = new Pair(\"hi\", 5);\nString s = switch (o) {\n    case Pair(String a, _) -> a.toUpperCase();\n    default -> \"none\";\n};\nIO.println(s);",
+    "text": "Java 25: What does this print?",
+    "code": "Object value = null;\nString result = switch (value) {\n    case null -> \"missing\";\n    case String s -> s;\n    default -> \"other\";\n};\nSystem.out.println(result);",
     "options": [
-      { "id": 1, "text": "hi" },
-      { "id": 2, "text": "HI" },
-      { "id": 3, "text": "none" },
-      { "id": 4, "text": "Compile error: _ is not allowed" }
-    ]
+      { "id": 1, "text": "null" },
+      { "id": 2, "text": "missing" },
+      { "id": 3, "text": "other" },
+      { "id": 4, "text": "A NullPointerException" }
+    ],
+    "correctOptionId": 2
   },
   {
     "id": 4,
-    "type": "multiple-choice",
-    "text": "This is the entire content of Hello.java. What happens when you run: java Hello.java (Java 25)?",
-    "code": "void main() {\n    IO.println(\"Hi, Java 25!\");\n}",
+    "text": "Java 25: What does this print?",
+    "code": "record Point(int x, int y) {}\nObject point = new Point(3, 4);\nString result = switch (point) {\n    case Point(int x, int y) -> x + \",\" + y;\n    default -> \"unknown\";\n};\nSystem.out.println(result);",
     "options": [
-      { "id": 1, "text": "Prints: Hi, Java 25!" },
-      { "id": 2, "text": "Compile error: missing class declaration" },
-      { "id": 3, "text": "Compile error: main must be static" },
-      { "id": 4, "text": "Only works with --enable-preview" }
-    ]
+      { "id": 1, "text": "3,4" },
+      { "id": 2, "text": "Point(3, 4)" },
+      { "id": 3, "text": "unknown" },
+      { "id": 4, "text": "Compile error" }
+    ],
+    "correctOptionId": 1
   },
   {
     "id": 5,
-    "type": "multiple-choice",
-    "text": "What does new Child(1) print?",
-    "code": "class Base {\n    Base() { IO.println(\"Base\"); }\n}\n\nclass Child extends Base {\n    Child(int v) {\n        if (v < 0) throw new IllegalArgumentException();\n        IO.println(\"check\");\n        super();\n    }\n}",
+    "text": "Java 25: What does this print?",
+    "code": "record Pair(String left, String right) {}\nObject pair = new Pair(\"a\", \"b\");\nString result = switch (pair) {\n    case Pair(String a, String b) -> a + b;\n    default -> \"?\";\n};\nSystem.out.println(result);",
     "options": [
-      { "id": 1, "text": "Base, then check" },
-      { "id": 2, "text": "check, then Base" },
-      { "id": 3, "text": "Only Base" },
-      { "id": 4, "text": "Compile error: super() must be first" }
-    ]
+      { "id": 1, "text": "ab" },
+      { "id": 2, "text": "a b" },
+      { "id": 3, "text": "Pair(a, b)" },
+      { "id": 4, "text": "Compile error" }
+    ],
+    "correctOptionId": 1
   },
   {
     "id": 6,
-    "type": "multiple-choice",
-    "text": "Does this compile without a default branch?",
-    "code": "sealed interface Shape permits Circle, Square {}\nrecord Circle(double r) implements Shape {}\nrecord Square(double s) implements Shape {}\n\nString name(Shape s) {\n    return switch (s) {\n        case Circle c -> \"circle\";\n        case Square q -> \"square\";\n    };\n}",
+    "text": "Java 25: What happens when this code runs?",
+    "code": "Object value = null;\nString result = switch (value) {\n    case String s -> s;\n    default -> \"other\";\n};",
     "options": [
-      { "id": 1, "text": "Yes, the switch is exhaustive" },
-      { "id": 2, "text": "No, a default branch is always required" },
-      { "id": 3, "text": "No, records cannot implement sealed interfaces" },
-      { "id": 4, "text": "Yes, but it warns at runtime" }
-    ]
+      { "id": 1, "text": "result is null" },
+      { "id": 2, "text": "result is \"other\"" },
+      { "id": 3, "text": "A NullPointerException is thrown" },
+      { "id": 4, "text": "The code does not compile" }
+    ],
+    "correctOptionId": 3
   },
   {
     "id": 7,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "String s = \"\"\"\n    Hello\n      World\"\"\";\nIO.println(s.length());",
+    "text": "Java 25: What does this print?",
+    "code": "sealed interface Shape permits Circle, Square {}\nrecord Circle(int radius) implements Shape {}\nrecord Square(int side) implements Shape {}\nShape shape = new Circle(3);\nint size = switch (shape) {\n    case Circle c -> c.radius();\n    case Square s -> s.side();\n};\nSystem.out.println(size);",
     "options": [
-      { "id": 1, "text": "11" },
-      { "id": 2, "text": "13" },
-      { "id": 3, "text": "17" },
-      { "id": 4, "text": "19" }
-    ]
+      { "id": 1, "text": "3" },
+      { "id": 2, "text": "9" },
+      {
+        "id": 3,
+        "text": "The code does not compile because there is no default"
+      },
+      { "id": 4, "text": "A ClassCastException is thrown" }
+    ],
+    "correctOptionId": 1
   },
   {
     "id": 8,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "List<Integer> list = new ArrayList<>(List.of(1, 2, 3));\nlist.addFirst(0);\nIO.println(list.reversed());",
+    "text": "Java 25: What does this print?",
+    "code": "int day = 6;\nString name = switch (day) {\n    case 1 -> \"Mon\";\n    case 6, 7 -> \"Weekend\";\n    default -> \"Weekday\";\n};\nSystem.out.println(name);",
     "options": [
-      { "id": 1, "text": "[0, 1, 2, 3]" },
-      { "id": 2, "text": "[3, 2, 1, 0]" },
-      { "id": 3, "text": "[3, 2, 1]" },
-      { "id": 4, "text": "UnsupportedOperationException" }
-    ]
+      { "id": 1, "text": "Mon" },
+      { "id": 2, "text": "Weekend" },
+      { "id": 3, "text": "Weekday" },
+      { "id": 4, "text": "Compile error" }
+    ],
+    "correctOptionId": 2
   },
   {
     "id": 9,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "var result = Stream.of(1, 2, 3, 4, 5)\n    .gather(Gatherers.windowFixed(2))\n    .toList();\nIO.println(result);",
+    "text": "Java 25: What does this print?",
+    "code": "Object value = \"\";\nString result = switch (value) {\n    case String s when s.isEmpty() -> \"empty\";\n    case String s -> \"text\";\n    default -> \"other\";\n};\nSystem.out.println(result);",
     "options": [
-      { "id": 1, "text": "[[1, 2], [3, 4]]" },
-      { "id": 2, "text": "[[1, 2], [3, 4], [5]]" },
-      { "id": 3, "text": "[[1, 2], [2, 3], [3, 4], [4, 5]]" },
-      { "id": 4, "text": "[3, 7, 5]" }
-    ]
+      { "id": 1, "text": "empty" },
+      { "id": 2, "text": "text" },
+      { "id": 3, "text": "other" },
+      { "id": 4, "text": "The code does not compile because the cases overlap" }
+    ],
+    "correctOptionId": 1
   },
   {
     "id": 10,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "static final ScopedValue<String> USER =\n    ScopedValue.newInstance();\n\nScopedValue.where(USER, \"duke\")\n    .run(() -> IO.println(USER.get()));\nIO.println(USER.isBound());",
+    "text": "Java 25: What is printed?",
+    "code": "record User(String name) {\n    User {\n        name = name.strip();\n    }\n}\nUser user = new User(\"  Ada  \");\nSystem.out.println(user.name());",
     "options": [
-      { "id": 1, "text": "duke, then true" },
-      { "id": 2, "text": "duke, then false" },
-      { "id": 3, "text": "null, then false" },
-      { "id": 4, "text": "NoSuchElementException" }
-    ]
+      { "id": 1, "text": "  Ada  " },
+      { "id": 2, "text": "Ada" },
+      { "id": 3, "text": "null" },
+      { "id": 4, "text": "Compile error" }
+    ],
+    "correctOptionId": 2
   },
   {
     "id": 11,
-    "type": "multiple-choice",
-    "text": "What does this declaration do in Java 25?",
-    "code": "import module java.base;",
+    "text": "Java 25: What does this print?",
+    "code": "record User(String name, int age) {}\nSystem.out.println(new User(\"Ada\", 20).equals(new User(\"Ada\", 20)));",
     "options": [
-      {
-        "id": 1,
-        "text": "Imports all packages exported by the java.base module"
-      },
-      { "id": 2, "text": "Declares that the file belongs to java.base" },
-      { "id": 3, "text": "Adds java.base to the module path at runtime" },
-      { "id": 4, "text": "Compile error: not valid Java syntax" }
-    ]
+      { "id": 1, "text": "true" },
+      { "id": 2, "text": "false" },
+      { "id": 3, "text": "Compile error" },
+      { "id": 4, "text": "A NullPointerException" }
+    ],
+    "correctOptionId": 1
   },
   {
     "id": 12,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "Object o = null;\nString s = switch (o) {\n    case null -> \"null!\";\n    case String str -> \"string\";\n    default -> \"other\";\n};\nIO.println(s);",
+    "text": "Java 25: Which types are allowed to implement this sealed interface?",
+    "code": "sealed interface Result permits Success, Failure {}\nfinal class Success implements Result {}\nnon-sealed class Failure implements Result {}",
     "options": [
-      { "id": 1, "text": "null!" },
-      { "id": 2, "text": "string" },
-      { "id": 3, "text": "other" },
-      { "id": 4, "text": "NullPointerException" }
-    ]
+      { "id": 1, "text": "Only final classes" },
+      { "id": 2, "text": "Only records" },
+      {
+        "id": 3,
+        "text": "The types named in permits, with each direct subtype declared final, sealed, or non-sealed"
+      },
+      { "id": 4, "text": "Any class in the same package" }
+    ],
+    "correctOptionId": 3
   },
   {
     "id": 13,
-    "type": "multiple-choice",
-    "text": "What happens here?",
-    "code": "String s = null;\nswitch (s) {\n    case \"a\" -> IO.println(\"a\");\n    default -> IO.println(\"default\");\n}",
+    "text": "Java 25: What does this print?",
+    "code": "sealed interface Color permits Red, Blue {}\nfinal class Red implements Color {}\nfinal class Blue implements Color {}\nColor color = new Blue();\nString name = switch (color) {\n    case Red r -> \"red\";\n    case Blue b -> \"blue\";\n};\nSystem.out.println(name);",
     "options": [
-      { "id": 1, "text": "Prints: default" },
-      { "id": 2, "text": "Prints nothing" },
-      { "id": 3, "text": "Throws NullPointerException" },
-      { "id": 4, "text": "Compile error" }
-    ]
+      { "id": 1, "text": "red" },
+      { "id": 2, "text": "blue" },
+      { "id": 3, "text": "null" },
+      { "id": 4, "text": "The switch requires a default case" }
+    ],
+    "correctOptionId": 2
   },
   {
     "id": 14,
-    "type": "multiple-choice",
-    "text": "What happens here?",
-    "code": "Object o = \"hi\";\nString s = switch (o) {\n    case CharSequence cs -> \"cs\";\n    case String str -> \"string\";\n    default -> \"other\";\n};\nIO.println(s);",
+    "text": "Java 25: In a compact source file, what does this program print?",
+    "code": "void main() {\n    System.out.println(\"Hello, Java 25\");\n}",
     "options": [
-      { "id": 1, "text": "Prints: cs" },
-      { "id": 2, "text": "Prints: string" },
-      { "id": 3, "text": "Prints: other" },
-      { "id": 4, "text": "Compile error: dominated case label" }
-    ]
+      { "id": 1, "text": "Hello, Java 25" },
+      { "id": 2, "text": "Nothing; a class declaration is required" },
+      {
+        "id": 3,
+        "text": "The code does not compile because main must be static"
+      },
+      {
+        "id": 4,
+        "text": "A runtime error occurs because there is no package declaration"
+      }
+    ],
+    "correctOptionId": 1
   },
   {
     "id": 15,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "Thread t = Thread.ofVirtual().start(() -> {});\nt.join();\nIO.println(t.isVirtual() + \" \" + t.isDaemon());",
+    "text": "Java 25: What does this program print?",
+    "code": "import module java.base;\nclass Quiz {\n    public static void main(String[] args) {\n        List<String> names = List.of(\"Ada\");\n        System.out.println(names.getFirst());\n    }\n}",
     "options": [
-      { "id": 1, "text": "true true" },
-      { "id": 2, "text": "true false" },
-      { "id": 3, "text": "false false" },
-      { "id": 4, "text": "IllegalStateException" }
-    ]
+      { "id": 1, "text": "Ada" },
+      {
+        "id": 2,
+        "text": "The code does not compile because List must be imported separately"
+      },
+      { "id": 3, "text": "null" },
+      { "id": 4, "text": "A NoSuchElementException" }
+    ],
+    "correctOptionId": 1
   },
   {
     "id": 16,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "record P(int x) {}\n\nIO.println(new P(1).equals(new P(1))\n    + \" \" + (new P(1) == new P(1)));",
+    "text": "Java 25: Does this constructor compile, and what is printed?",
+    "code": "class Parent {\n    Parent(int value) { System.out.print(value); }\n}\nclass Child extends Parent {\n    Child(int value) {\n        if (value < 0) throw new IllegalArgumentException();\n        super(value);\n    }\n}\nnew Child(5);",
     "options": [
-      { "id": 1, "text": "true true" },
-      { "id": 2, "text": "true false" },
-      { "id": 3, "text": "false false" },
-      { "id": 4, "text": "false true" }
-    ]
+      { "id": 1, "text": "It compiles and prints 5" },
+      { "id": 2, "text": "It compiles and prints nothing" },
+      {
+        "id": 3,
+        "text": "It fails because super(...) must be the first statement"
+      },
+      {
+        "id": 4,
+        "text": "It fails because a constructor cannot throw an exception before super(...)"
+      }
+    ],
+    "correctOptionId": 1
   },
   {
     "id": 17,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "Object o = \"Java 25\";\nif (o instanceof String s && s.length() > 5) {\n    IO.println(s.length());\n} else {\n    IO.println(\"short\");\n}",
+    "text": "Java 25: What does this print?",
+    "code": "List<Integer> values = new ArrayList<>(List.of(2, 3));\nvalues.addFirst(1);\nSystem.out.println(values.getFirst());",
     "options": [
-      { "id": 1, "text": "6" },
-      { "id": 2, "text": "7" },
-      { "id": 3, "text": "short" },
-      { "id": 4, "text": "Compile error: s is not in scope" }
-    ]
+      { "id": 1, "text": "1" },
+      { "id": 2, "text": "2" },
+      { "id": 3, "text": "3" },
+      {
+        "id": 4,
+        "text": "The code does not compile because List has no addFirst method"
+      }
+    ],
+    "correctOptionId": 1
   },
   {
     "id": 18,
-    "type": "multiple-choice",
-    "text": "What does this print?",
-    "code": "record Range(int lo, int hi) {\n    Range {\n        if (lo > hi) {\n            int t = lo; lo = hi; hi = t;\n        }\n    }\n}\n\nIO.println(new Range(5, 2));",
+    "text": "Java 25: What does this print?",
+    "code": "List<String> values = List.of(\"a\", \"b\", \"c\");\nSystem.out.println(values.reversed());",
     "options": [
-      { "id": 1, "text": "Range[lo=5, hi=2]" },
-      { "id": 2, "text": "Range[lo=2, hi=5]" },
-      { "id": 3, "text": "Range@1b6d3586" },
-      { "id": 4, "text": "Compile error: cannot assign to lo" }
-    ]
+      { "id": 1, "text": "[a, b, c]" },
+      { "id": 2, "text": "[c, b, a]" },
+      { "id": 3, "text": "A reversed view is not supported by List" },
+      { "id": 4, "text": "The original list is changed to [c, b, a]" }
+    ],
+    "correctOptionId": 2
   },
   {
     "id": 19,
-    "type": "multiple-choice",
-    "text": "Which one compiles in Java 25?",
-    "code": "// A\nint _ = 1; IO.println(_);\n\n// B\ntry { risky(); }\ncatch (Exception _) { IO.println(\"failed\"); }\n\n// C\nvoid log(String _) {}\n\n// D\nrecord R(int _) {}",
+    "text": "Java 25: What does this print?",
+    "code": "SequencedSet<String> names = new LinkedHashSet<>();\nnames.add(\"Mia\");\nnames.add(\"Zoe\");\nnames.addFirst(\"Ada\");\nSystem.out.println(names.getFirst());",
     "options": [
-      { "id": 1, "text": "A" },
-      { "id": 2, "text": "B" },
-      { "id": 3, "text": "C" },
-      { "id": 4, "text": "D" }
-    ]
+      { "id": 1, "text": "Mia" },
+      { "id": 2, "text": "Zoe" },
+      { "id": 3, "text": "Ada" },
+      {
+        "id": 4,
+        "text": "The code does not compile because sets have no order"
+      }
+    ],
+    "correctOptionId": 3
   },
   {
     "id": 20,
-    "type": "multiple-choice",
-    "text": "Why can you call IO.println(...) in Java 25 without any import?",
+    "text": "Java 25: What does this print?",
+    "code": "SequencedMap<String, Integer> scores = new LinkedHashMap<>();\nscores.put(\"Ada\", 10);\nscores.put(\"Mia\", 20);\nSystem.out.println(scores.firstEntry().getKey());",
     "options": [
+      { "id": 1, "text": "Ada" },
+      { "id": 2, "text": "Mia" },
+      { "id": 3, "text": "10" },
       {
-        "id": 1,
-        "text": "IO is in java.lang, which is imported automatically"
+        "id": 4,
+        "text": "The code does not compile because Map has no firstEntry method"
+      }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 21,
+    "text": "Java 25: What does this print?",
+    "code": "Thread thread = Thread.startVirtualThread(\n    () -> System.out.println(Thread.currentThread().isVirtual())\n);\nthread.join();",
+    "options": [
+      { "id": 1, "text": "true" },
+      { "id": 2, "text": "false" },
+      {
+        "id": 3,
+        "text": "The code does not compile because virtual threads cannot be started directly"
       },
+      { "id": 4, "text": "Nothing; virtual threads do not run Runnable tasks" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 22,
+    "text": "Java 25: What happens when this code runs?",
+    "code": "List<String> names = List.of(\"Ada\", \"Mia\");\nnames.add(\"Zoe\");",
+    "options": [
+      { "id": 1, "text": "The list becomes [Ada, Mia, Zoe]" },
+      { "id": 2, "text": "The list becomes [Zoe, Ada, Mia]" },
+      { "id": 3, "text": "An UnsupportedOperationException is thrown" },
+      {
+        "id": 4,
+        "text": "The code does not compile because List.of returns a Set"
+      }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 23,
+    "text": "Java 25: What happens when this code runs?",
+    "code": "List<String> names = List.of();\nSystem.out.println(names.getFirst());",
+    "options": [
+      { "id": 1, "text": "It prints null" },
+      { "id": 2, "text": "It prints an empty string" },
+      { "id": 3, "text": "A NoSuchElementException is thrown" },
+      { "id": 4, "text": "The code does not compile" }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 24,
+    "text": "Java 25: What does this print?",
+    "code": "List<String> names = new ArrayList<>(List.of(\"Ada\", \"Mia\"));\nSystem.out.println(names.removeFirst());",
+    "options": [
+      { "id": 1, "text": "Ada" },
+      { "id": 2, "text": "Mia" },
+      { "id": 3, "text": "[Mia]" },
+      {
+        "id": 4,
+        "text": "The code does not compile because ArrayList has no removeFirst method"
+      }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 25,
+    "text": "Java 25: What does this print?",
+    "code": "String value = \"  Java 25  \";\nSystem.out.println(value.strip());",
+    "options": [
+      { "id": 1, "text": "  Java 25  " },
+      { "id": 2, "text": "Java 25" },
+      { "id": 3, "text": "Java" },
+      {
+        "id": 4,
+        "text": "The code does not compile because strip is not a String method"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 26,
+    "text": "Java 25: What does this text block contain?",
+    "code": "String text = \"\"\"\n    A\n    B\"\"\";\nSystem.out.println(text.replace(\"\\n\", \"|\"));",
+    "options": [
+      { "id": 1, "text": "A|B|" },
+      { "id": 2, "text": "A|B" },
+      { "id": 3, "text": "    A|    B" },
+      {
+        "id": 4,
+        "text": "The code does not compile because text blocks require escaped newlines"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 27,
+    "text": "Java 25: What is the compile-time type of value?",
+    "code": "var value = 10;",
+    "options": [
+      { "id": 1, "text": "Object" },
+      { "id": 2, "text": "Integer" },
+      { "id": 3, "text": "int" },
+      { "id": 4, "text": "var" }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 28,
+    "text": "Java 25: What does this print?",
+    "code": "Object value = \"hello\";\nif (value instanceof String text) {\n    System.out.println(text.toUpperCase());\n}",
+    "options": [
+      { "id": 1, "text": "hello" },
+      { "id": 2, "text": "HELLO" },
+      { "id": 3, "text": "true" },
+      {
+        "id": 4,
+        "text": "The code does not compile because text is not declared"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 29,
+    "text": "Java 25: What does this print?",
+    "code": "String value = \"java\";\nString result = switch (value) {\n    case \"java\" -> \"JVM\";\n    case \"python\" -> \"CPython\";\n    default -> \"other\";\n};\nSystem.out.println(result);",
+    "options": [
+      { "id": 1, "text": "JVM" },
+      { "id": 2, "text": "CPython" },
+      { "id": 3, "text": "other" },
+      {
+        "id": 4,
+        "text": "The code does not compile because switch cannot use String"
+      }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 30,
+    "text": "Java 25: What does this print?",
+    "code": "Object value = \"ready\";\nString result = switch (value) {\n    case String s -> s.toUpperCase();\n    case Integer i -> \"number\";\n    default -> \"other\";\n};\nSystem.out.println(result);",
+    "options": [
+      { "id": 1, "text": "ready" },
+      { "id": 2, "text": "READY" },
+      { "id": 3, "text": "number" },
+      { "id": 4, "text": "Compile error because String patterns need a guard" }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 31,
+    "text": "Java 25: What does this print?",
+    "code": "Map<String, Integer> scores = Map.of(\"Ada\", 10);\nSystem.out.println(scores.getOrDefault(\"Mia\", 0));",
+    "options": [
+      { "id": 1, "text": "10" },
+      { "id": 2, "text": "0" },
+      { "id": 3, "text": "null" },
+      { "id": 4, "text": "A NoSuchElementException" }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 32,
+    "text": "Java 25: What happens when this code runs?",
+    "code": "Map<String, Integer> scores = Map.of(\"Ada\", null);",
+    "options": [
+      { "id": 1, "text": "A map containing Ada mapped to null is created" },
+      { "id": 2, "text": "The map is created with an empty value" },
+      { "id": 3, "text": "A NullPointerException is thrown" },
+      {
+        "id": 4,
+        "text": "The code does not compile because Map.of accepts no arguments"
+      }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 33,
+    "text": "Java 25: What does this print?",
+    "code": "Optional<String> name = Optional.of(\"Ada\");\nSystem.out.println(name.orElse(\"Unknown\"));",
+    "options": [
+      { "id": 1, "text": "Ada" },
+      { "id": 2, "text": "Unknown" },
+      { "id": 3, "text": "null" },
+      { "id": 4, "text": "A NoSuchElementException" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 34,
+    "text": "Java 25: What happens when this code runs?",
+    "code": "List<String> names = Stream.of(\"Ada\", \"Mia\").toList();\nnames.add(\"Zoe\");",
+    "options": [
+      { "id": 1, "text": "The list becomes [Ada, Mia, Zoe]" },
+      { "id": 2, "text": "An UnsupportedOperationException is thrown" },
+      { "id": 3, "text": "A NullPointerException is thrown" },
+      {
+        "id": 4,
+        "text": "The code does not compile because Stream.toList returns a Stream"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 35,
+    "text": "Java 25: What does this print?",
+    "code": "long count = Stream.of(\"a\", \"b\", \"a\").distinct().count();\nSystem.out.println(count);",
+    "options": [
+      { "id": 1, "text": "1" },
+      { "id": 2, "text": "2" },
+      { "id": 3, "text": "3" },
+      {
+        "id": 4,
+        "text": "The code does not compile because distinct requires a comparator"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 36,
+    "text": "Java 25: What does this print?",
+    "code": "String message = \"Hello, %s!\".formatted(\"Ada\");\nSystem.out.println(message);",
+    "options": [
+      { "id": 1, "text": "Hello, %s!" },
+      { "id": 2, "text": "Hello, Ada!" },
+      { "id": 3, "text": "Hello, null!" },
+      {
+        "id": 4,
+        "text": "The code does not compile because formatted is not a String method"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 37,
+    "text": "Java 25: What happens when this code runs?",
+    "code": "String value = null;\nSystem.out.println(value instanceof String text);",
+    "options": [
+      { "id": 1, "text": "true" },
+      { "id": 2, "text": "false" },
+      { "id": 3, "text": "A NullPointerException is thrown" },
+      {
+        "id": 4,
+        "text": "The code does not compile because instanceof cannot use a pattern"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 38,
+    "text": "Java 25: What does this print?",
+    "code": "StringBuilder text = new StringBuilder(\"Java\");\ntext.append(\" 25\");\nSystem.out.println(text);",
+    "options": [
+      { "id": 1, "text": "Java" },
+      { "id": 2, "text": "Java 25" },
+      { "id": 3, "text": "25 Java" },
+      {
+        "id": 4,
+        "text": "The code does not compile because append returns a new StringBuilder"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 39,
+    "text": "Java 25: What does this print?",
+    "code": "int result = switch (2) {\n    case 1 -> 10;\n    case 2 -> 20;\n    default -> 0;\n};\nSystem.out.println(result);",
+    "options": [
+      { "id": 1, "text": "10" },
+      { "id": 2, "text": "20" },
+      { "id": 3, "text": "0" },
+      {
+        "id": 4,
+        "text": "The code does not compile because switch cannot return a value"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 40,
+    "text": "Java 25: What does this print?",
+    "code": "int value = 5;\nString result = switch (value) {\n    case 1, 2 -> \"low\";\n    case 3, 4, 5 -> \"medium\";\n    default -> \"high\";\n};\nSystem.out.println(result);",
+    "options": [
+      { "id": 1, "text": "low" },
+      { "id": 2, "text": "medium" },
+      { "id": 3, "text": "high" },
+      {
+        "id": 4,
+        "text": "Compile error because a case can have only one label"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 41,
+    "text": "Spring Boot 4: Given this controller, what does GET /greeting return?",
+    "code": "@RestController\nclass GreetingController {\n    @GetMapping(\"/greeting\")\n    String greeting() { return \"Hello\"; }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with the response body Hello" },
+      { "id": 2, "text": "HTTP 201 with the response body Hello" },
+      { "id": 3, "text": "HTTP 404 because the method has no @ResponseBody" },
+      { "id": 4, "text": "HTTP 204 with an empty body" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 42,
+    "text": "Spring Boot 4: What does GET /users/17 return?",
+    "code": "@RestController\nclass UserController {\n    @GetMapping(\"/users/{id}\")\n    String getUser(@PathVariable int id) { return \"user-\" + id; }\n}",
+    "options": [
+      { "id": 1, "text": "user-17" },
+      { "id": 2, "text": "user-id" },
+      { "id": 3, "text": "HTTP 404 because the path variable is not named" },
+      { "id": 4, "text": "HTTP 400 because path variables cannot be integers" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 43,
+    "text": "Spring Boot 4: What does GET /items?page=3 return?",
+    "code": "@RestController\nclass ItemController {\n    @GetMapping(\"/items\")\n    String page(@RequestParam(defaultValue = \"1\") int page) {\n        return \"page-\" + page;\n    }\n}",
+    "options": [
+      { "id": 1, "text": "page-1" },
+      { "id": 2, "text": "page-3" },
+      { "id": 3, "text": "page-null" },
+      {
+        "id": 4,
+        "text": "HTTP 400 because defaultValue and a supplied parameter cannot be combined"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 44,
+    "text": "Spring Boot 4: What does GET /items return?",
+    "code": "@RestController\nclass ItemController {\n    @GetMapping(\"/items\")\n    String filter(@RequestParam(required = false) String category) {\n        return category == null ? \"all\" : category;\n    }\n}",
+    "options": [
+      { "id": 1, "text": "all" },
+      { "id": 2, "text": "null" },
+      { "id": 3, "text": "HTTP 400 because category is required" },
+      { "id": 4, "text": "HTTP 404 because the query parameter is missing" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 45,
+    "text": "Spring Boot 4: What does the endpoint return with the shown request header?",
+    "code": "@RestController\nclass CatalogController {\n    @GetMapping(\"/catalog\")\n    String catalog(@RequestHeader(\"API-Version\") String version) {\n        return \"catalog-v\" + version;\n    }\n}\nRequest: GET /catalog, API-Version: 2",
+    "options": [
+      { "id": 1, "text": "catalog-v2" },
+      { "id": 2, "text": "catalog-v1" },
+      { "id": 3, "text": "HTTP 404 because API-Version is not a URL path" },
+      { "id": 4, "text": "HTTP 204 because the header is present" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 46,
+    "text": "Spring Boot 4: What status and body does this endpoint return?",
+    "code": "@RestController\nclass UserController {\n    @PostMapping(\"/users\")\n    ResponseEntity<String> create() {\n        return ResponseEntity.status(201).body(\"created\");\n    }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body created" },
+      { "id": 2, "text": "HTTP 201 with body created" },
+      { "id": 3, "text": "HTTP 204 with an empty body" },
+      { "id": 4, "text": "HTTP 500 with body created" }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 47,
+    "text": "Spring Boot 4: What does this endpoint return for the given JSON request?",
+    "code": "@RestController\nclass EchoController {\n    record Message(String text) {}\n    @PostMapping(\"/echo\")\n    Message echo(@RequestBody Message message) { return message; }\n}\nRequest body: {\"text\":\"hello\"}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with JSON body {\"text\":\"hello\"}" },
+      { "id": 2, "text": "HTTP 201 with an empty body" },
+      { "id": 3, "text": "HTTP 400 because records cannot be request bodies" },
+      { "id": 4, "text": "HTTP 404 because the response type is not String" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 48,
+    "text": "Spring Boot 4: Assuming validation is enabled, what happens for this request?",
+    "code": "record CreateUser(@NotBlank String name) {}\n@RestController\nclass UserController {\n    @PostMapping(\"/users\")\n    String create(@Valid @RequestBody CreateUser user) { return \"created\"; }\n}\nRequest body: {\"name\":\"\"}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body created" },
+      { "id": 2, "text": "HTTP 201 with body created" },
+      { "id": 3, "text": "HTTP 400 because name violates @NotBlank" },
+      { "id": 4, "text": "HTTP 404 because the request body is empty" }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 49,
+    "text": "Spring Boot 4: Assuming validation is enabled, what happens when age is negative?",
+    "code": "record CreateMember(@Min(0) int age) {}\n@RestController\nclass MemberController {\n    @PostMapping(\"/members\")\n    String create(@Valid @RequestBody CreateMember member) { return \"ok\"; }\n}\nRequest body: {\"age\":-1}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body ok" },
+      { "id": 2, "text": "HTTP 400 because age violates @Min(0)" },
+      { "id": 3, "text": "HTTP 401 because age is negative" },
+      {
+        "id": 4,
+        "text": "HTTP 500 because validation annotations are ignored on records"
+      }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 50,
+    "text": "Spring Boot 4: What is the usual response when this endpoint receives malformed JSON?",
+    "code": "@RestController\nclass EchoController {\n    @PostMapping(\"/echo\")\n    String echo(@RequestBody Map<String, String> body) { return \"ok\"; }\n}\nRequest body: {\"name\":",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body ok" },
+      { "id": 2, "text": "HTTP 400 Bad Request" },
+      { "id": 3, "text": "HTTP 404 Not Found" },
+      { "id": 4, "text": "HTTP 501 Not Implemented" }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 51,
+    "text": "Spring Boot 4: What status does this endpoint return for GET /orders/99?",
+    "code": "@RestController\nclass OrderController {\n    @GetMapping(\"/orders/{id}\")\n    String get(@PathVariable long id) {\n        throw new OrderNotFoundException();\n    }\n}\n@ResponseStatus(HttpStatus.NOT_FOUND)\nclass OrderNotFoundException extends RuntimeException {}",
+    "options": [
+      { "id": 1, "text": "HTTP 200" },
+      { "id": 2, "text": "HTTP 400" },
+      { "id": 3, "text": "HTTP 404" },
+      { "id": 4, "text": "HTTP 500" }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 52,
+    "text": "Spring Boot 4: What status and body does the exception handler produce?",
+    "code": "@RestControllerAdvice\nclass ApiErrors {\n    @ExceptionHandler(IllegalArgumentException.class)\n    ResponseEntity<String> handle(IllegalArgumentException ex) {\n        return ResponseEntity.badRequest().body(\"invalid\");\n    }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body invalid" },
+      { "id": 2, "text": "HTTP 400 with body invalid" },
+      { "id": 3, "text": "HTTP 404 with body invalid" },
+      { "id": 4, "text": "HTTP 500 with an empty body" }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 53,
+    "text": "Spring Boot 4: What status does this endpoint return?",
+    "code": "@RestController\nclass ExportController {\n    @DeleteMapping(\"/exports/{id}\")\n    ResponseEntity<Void> delete(@PathVariable long id) {\n        return ResponseEntity.noContent().build();\n    }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with JSON null" },
+      { "id": 2, "text": "HTTP 201 with an empty body" },
+      { "id": 3, "text": "HTTP 204 with an empty body" },
+      { "id": 4, "text": "HTTP 404 with an empty body" }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 54,
+    "text": "Spring Boot 4: What response is expected if the request Content-Type is text/plain?",
+    "code": "@RestController\nclass NoteController {\n    @PostMapping(path = \"/notes\", consumes = \"application/json\")\n    String create(@RequestBody Map<String, String> note) { return \"ok\"; }\n}\nRequest: POST /notes, Content-Type: text/plain",
+    "options": [
+      { "id": 1, "text": "HTTP 200" },
+      { "id": 2, "text": "HTTP 400" },
+      { "id": 3, "text": "HTTP 404" },
+      { "id": 4, "text": "HTTP 415 Unsupported Media Type" }
+    ],
+    "correctOptionId": 4
+  },
+  {
+    "id": 55,
+    "text": "Spring Boot 4: What response is expected if the client only accepts XML?",
+    "code": "@RestController\nclass StatusController {\n    @GetMapping(path = \"/status\", produces = \"application/json\")\n    Map<String, String> status() { return Map.of(\"state\", \"up\"); }\n}\nRequest: GET /status, Accept: application/xml",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with JSON" },
+      { "id": 2, "text": "HTTP 404" },
+      { "id": 3, "text": "HTTP 406 Not Acceptable" },
+      { "id": 4, "text": "HTTP 415 Unsupported Media Type" }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 56,
+    "text": "Spring Boot 4: What response does GET /reports return?",
+    "code": "@RestController\nclass ReportController {\n    @PostMapping(\"/reports\")\n    String create() { return \"created\"; }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200" },
+      { "id": 2, "text": "HTTP 201" },
+      { "id": 3, "text": "HTTP 405 Method Not Allowed" },
+      { "id": 4, "text": "HTTP 415 Unsupported Media Type" }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 57,
+    "text": "Spring Boot 4: What is the usual response for GET /missing when no route matches?",
+    "code": "@RestController\nclass GreetingController {\n    @GetMapping(\"/greeting\")\n    String greeting() { return \"hello\"; }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with an empty body" },
+      { "id": 2, "text": "HTTP 201 Created" },
+      { "id": 3, "text": "HTTP 404 Not Found" },
+      { "id": 4, "text": "HTTP 500 Internal Server Error" }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 58,
+    "text": "Spring Boot 4: What is the response body for GET /message?",
+    "code": "@RestController\nclass MessageController {\n    @GetMapping(\"/message\")\n    String message() { return \"hello\"; }\n}",
+    "options": [
+      { "id": 1, "text": "The plain-text response body is hello" },
+      { "id": 2, "text": "The response body is the JSON string \"message\"" },
+      { "id": 3, "text": "The response body is an HTML view named hello" },
+      { "id": 4, "text": "The response has no body" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 59,
+    "text": "Spring Boot 4: What happens when the required X-Client header is absent?",
+    "code": "@RestController\nclass ClientController {\n    @GetMapping(\"/client\")\n    String client(@RequestHeader(\"X-Client\") String client) { return client; }\n}",
+    "options": [
+      { "id": 1, "text": "The method receives null and returns HTTP 200" },
       {
         "id": 2,
-        "text": "IO is in java.io, which compact source files import"
+        "text": "The method receives an empty string and returns HTTP 200"
       },
-      { "id": 3, "text": "IO is a JShell-only helper" },
-      { "id": 4, "text": "IO is a static import of System.out" }
-    ]
+      { "id": 3, "text": "Spring returns HTTP 400 Bad Request" },
+      { "id": 4, "text": "Spring returns HTTP 404 Not Found" }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 60,
+    "text": "Spring Boot 4: What does GET /client return when X-Client is absent?",
+    "code": "@RestController\nclass ClientController {\n    @GetMapping(\"/client\")\n    String client(@RequestHeader(value = \"X-Client\", defaultValue = \"web\") String client) {\n        return client;\n    }\n}",
+    "options": [
+      { "id": 1, "text": "web" },
+      { "id": 2, "text": "null" },
+      { "id": 3, "text": "HTTP 400" },
+      { "id": 4, "text": "HTTP 404" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 61,
+    "text": "Spring Boot 4: What does GET /search?tag=java&tag=spring return?",
+    "code": "@RestController\nclass SearchController {\n    @GetMapping(\"/search\")\n    List<String> search(@RequestParam List<String> tag) { return tag; }\n}",
+    "options": [
+      { "id": 1, "text": "[java, spring]" },
+      { "id": 2, "text": "[java&tag=spring]" },
+      { "id": 3, "text": "Only [spring]" },
+      {
+        "id": 4,
+        "text": "HTTP 400 because a query parameter cannot be repeated"
+      }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 62,
+    "text": "Spring Boot 4: What happens when GET /priority?level=HIGH is requested?",
+    "code": "enum Level { LOW, HIGH }\n@RestController\nclass PriorityController {\n    @GetMapping(\"/priority\")\n    String priority(@RequestParam Level level) { return level.name(); }\n}",
+    "options": [
+      { "id": 1, "text": "The response body is HIGH" },
+      { "id": 2, "text": "The response body is high" },
+      {
+        "id": 3,
+        "text": "HTTP 404 because enums cannot be request parameters"
+      },
+      {
+        "id": 4,
+        "text": "HTTP 400 because enum parameters cannot be converted"
+      }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 63,
+    "text": "Spring Boot 4: What happens when GET /items/abc is requested?",
+    "code": "@RestController\nclass ItemController {\n    @GetMapping(\"/items/{id}\")\n    String get(@PathVariable int id) { return \"item-\" + id; }\n}",
+    "options": [
+      { "id": 1, "text": "The response body is item-abc" },
+      { "id": 2, "text": "HTTP 400 because abc cannot be converted to int" },
+      { "id": 3, "text": "HTTP 404 because the route does not match" },
+      { "id": 4, "text": "HTTP 415 because the path is not JSON" }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 64,
+    "text": "Spring Boot 4: What does PATCH /tasks/8 return?",
+    "code": "@RestController\nclass TaskController {\n    @PatchMapping(\"/tasks/{id}\")\n    String patch(@PathVariable long id) { return \"patched-\" + id; }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body patched-8" },
+      { "id": 2, "text": "HTTP 201 with body patched-8" },
+      { "id": 3, "text": "HTTP 204 with body patched-8" },
+      { "id": 4, "text": "HTTP 405 because Spring MVC does not support PATCH" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 65,
+    "text": "Spring Boot 4: What does PUT /settings return?",
+    "code": "@RestController\nclass SettingsController {\n    @PutMapping(\"/settings\")\n    ResponseEntity<String> update() {\n        return ResponseEntity.ok(\"saved\");\n    }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body saved" },
+      { "id": 2, "text": "HTTP 201 with body saved" },
+      { "id": 3, "text": "HTTP 204 with an empty body" },
+      { "id": 4, "text": "HTTP 404 with body saved" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 66,
+    "text": "Spring Boot 4: What status does this endpoint explicitly return?",
+    "code": "@RestController\nclass JobController {\n    @PostMapping(\"/jobs\")\n    ResponseEntity<String> start() {\n        return ResponseEntity.accepted().body(\"queued\");\n    }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200" },
+      { "id": 2, "text": "HTTP 201" },
+      { "id": 3, "text": "HTTP 202 with body queued" },
+      { "id": 4, "text": "HTTP 204" }
+    ],
+    "correctOptionId": 3
+  },
+  {
+    "id": 67,
+    "text": "Spring Boot 4: What status and body does this endpoint return?",
+    "code": "@RestController\nclass RateLimitController {\n    @GetMapping(\"/limited\")\n    ResponseEntity<String> limited() {\n        return ResponseEntity.status(429).body(\"slow down\");\n    }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body slow down" },
+      { "id": 2, "text": "HTTP 429 with body slow down" },
+      { "id": 3, "text": "HTTP 400 with body slow down" },
+      { "id": 4, "text": "HTTP 500 with an empty body" }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 68,
+    "text": "Spring Boot 4: What does this endpoint return when the optional query parameter is omitted?",
+    "code": "@RestController\nclass GreetingController {\n    @GetMapping(\"/greet\")\n    String greet(@RequestParam Optional<String> name) {\n        return \"Hello \" + name.orElse(\"there\");\n    }\n}",
+    "options": [
+      { "id": 1, "text": "Hello null" },
+      { "id": 2, "text": "Hello there" },
+      { "id": 3, "text": "HTTP 400 because name is required" },
+      { "id": 4, "text": "HTTP 404 because the parameter is omitted" }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 69,
+    "text": "Spring Boot 4: What does GET /versioned return when API-Version is absent?",
+    "code": "@RestController\nclass VersionController {\n    @GetMapping(\"/versioned\")\n    String version(@RequestHeader(value = \"API-Version\", defaultValue = \"1\") String version) {\n        return \"v\" + version;\n    }\n}",
+    "options": [
+      { "id": 1, "text": "v1" },
+      { "id": 2, "text": "vnull" },
+      { "id": 3, "text": "HTTP 400" },
+      { "id": 4, "text": "HTTP 404" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 70,
+    "text": "Spring Boot 4: What does the endpoint return with API-Version: 2?",
+    "code": "@RestController\nclass VersionController {\n    @GetMapping(\"/versioned\")\n    String version(@RequestHeader(value = \"API-Version\", defaultValue = \"1\") String version) {\n        return version.equals(\"2\") ? \"new\" : \"legacy\";\n    }\n}\nRequest header: API-Version: 2",
+    "options": [
+      { "id": 1, "text": "legacy" },
+      { "id": 2, "text": "new" },
+      { "id": 3, "text": "HTTP 400" },
+      { "id": 4, "text": "HTTP 404" }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 71,
+    "text": "Spring Boot 4: What does POST /orders return when the request body is valid?",
+    "code": "record OrderRequest(String item) {}\n@RestController\nclass OrderController {\n    @PostMapping(\"/orders\")\n    String create(@RequestBody OrderRequest order) { return order.item(); }\n}\nRequest body: {\"item\":\"book\"}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body book" },
+      { "id": 2, "text": "HTTP 201 with body book" },
+      { "id": 3, "text": "HTTP 204 with an empty body" },
+      { "id": 4, "text": "HTTP 400 because records cannot be deserialized" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 72,
+    "text": "Spring Boot 4: Assuming validation is enabled, what happens when code is blank?",
+    "code": "record Request(@NotBlank String code) {}\n@RestController\nclass CodeController {\n    @PostMapping(\"/codes\")\n    String create(@Valid @RequestBody Request request) { return \"accepted\"; }\n}\nRequest body: {\"code\":\"   \"}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body accepted" },
+      {
+        "id": 2,
+        "text": "HTTP 400 because @NotBlank rejects whitespace-only values"
+      },
+      { "id": 3, "text": "HTTP 404 because code is missing" },
+      { "id": 4, "text": "HTTP 415 because whitespace is not JSON" }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 73,
+    "text": "Spring Boot 4: What response body does this endpoint produce?",
+    "code": "@RestController\nclass HealthController {\n    @GetMapping(\"/health\")\n    Map<String, String> health() { return Map.of(\"status\", \"UP\"); }\n}",
+    "options": [
+      { "id": 1, "text": "The JSON object {\"status\":\"UP\"}" },
+      { "id": 2, "text": "The plain text status=UP" },
+      { "id": 3, "text": "An HTML view named health" },
+      { "id": 4, "text": "An empty response body" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 74,
+    "text": "Spring Boot 4: What response does this method return for GET /count?",
+    "code": "@RestController\nclass CountController {\n    @GetMapping(\"/count\")\n    int count() { return 7; }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body 7" },
+      { "id": 2, "text": "HTTP 201 with body 7" },
+      { "id": 3, "text": "HTTP 204 with an empty body" },
+      {
+        "id": 4,
+        "text": "HTTP 500 because controller methods cannot return primitives"
+      }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 75,
+    "text": "Spring Boot 4: What does GET /items/5?details=true return?",
+    "code": "@RestController\nclass ItemController {\n    @GetMapping(\"/items/{id}\")\n    String get(@PathVariable long id, @RequestParam boolean details) {\n        return id + \":\" + details;\n    }\n}",
+    "options": [
+      { "id": 1, "text": "5:true" },
+      { "id": 2, "text": "5:false" },
+      {
+        "id": 3,
+        "text": "HTTP 400 because booleans cannot be query parameters"
+      },
+      {
+        "id": 4,
+        "text": "HTTP 404 because the query parameter is not in the path"
+      }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 76,
+    "text": "Spring Boot 4: What does this endpoint return when the request has Accept: application/json?",
+    "code": "@RestController\nclass StatusController {\n    @GetMapping(path = \"/status\", produces = \"application/json\")\n    Map<String, String> status() { return Map.of(\"state\", \"up\"); }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with a JSON response body" },
+      { "id": 2, "text": "HTTP 406 Not Acceptable" },
+      { "id": 3, "text": "HTTP 415 Unsupported Media Type" },
+      { "id": 4, "text": "HTTP 204 No Content" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 77,
+    "text": "Spring Boot 4: What happens when GET /private is called without authentication, assuming security requires authentication?",
+    "code": "@RestController\nclass PrivateController {\n    @GetMapping(\"/private\")\n    String privateData() { return \"secret\"; }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body secret" },
+      { "id": 2, "text": "HTTP 401 Unauthorized" },
+      { "id": 3, "text": "HTTP 404 Not Found" },
+      { "id": 4, "text": "HTTP 415 Unsupported Media Type" }
+    ],
+    "correctOptionId": 2
+  },
+  {
+    "id": 78,
+    "text": "Spring Boot 4: What does GET /lookup?q=java return?",
+    "code": "@RestController\nclass LookupController {\n    @GetMapping(\"/lookup\")\n    String lookup(@RequestParam(name = \"q\") String query) { return query; }\n}",
+    "options": [
+      { "id": 1, "text": "java" },
+      { "id": 2, "text": "q" },
+      {
+        "id": 3,
+        "text": "HTTP 400 because the parameter name differs from the Java variable name"
+      },
+      { "id": 4, "text": "HTTP 404 because q is not a path variable" }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 79,
+    "text": "Spring Boot 4: What status does this endpoint return when the requested item exists?",
+    "code": "@RestController\nclass ItemController {\n    @GetMapping(\"/items/{id}\")\n    ResponseEntity<String> get(@PathVariable long id) {\n        return ResponseEntity.ok(\"item-\" + id);\n    }\n}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body item-{id}" },
+      { "id": 2, "text": "HTTP 201 with body item-{id}" },
+      { "id": 3, "text": "HTTP 204 with an empty body" },
+      {
+        "id": 4,
+        "text": "HTTP 404 because ResponseEntity.ok is not a valid response"
+      }
+    ],
+    "correctOptionId": 1
+  },
+  {
+    "id": 80,
+    "text": "Spring Boot 4: Assuming validation is enabled, what happens when quantity is zero?",
+    "code": "record CartRequest(@Positive int quantity) {}\n@RestController\nclass CartController {\n    @PostMapping(\"/cart\")\n    String add(@Valid @RequestBody CartRequest request) { return \"added\"; }\n}\nRequest body: {\"quantity\":0}",
+    "options": [
+      { "id": 1, "text": "HTTP 200 with body added" },
+      { "id": 2, "text": "HTTP 201 with body added" },
+      {
+        "id": 3,
+        "text": "HTTP 400 because @Positive requires a value greater than zero"
+      },
+      {
+        "id": 4,
+        "text": "HTTP 404 because zero is treated as a missing request body"
+      }
+    ],
+    "correctOptionId": 3
   }
 ]
