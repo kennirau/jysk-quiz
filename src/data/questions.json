@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "Object o = 42;\nString s = switch (o) {\n    case Integer i when i > 40 -> \"big\";\n    case Integer i -> \"small\";\n    default -> \"other\";\n};\nIO.println(s);",
     "options": [
@@ -8,11 +9,11 @@
       { "id": 2, "text": "small" },
       { "id": 3, "text": "other" },
       { "id": 4, "text": "Compile error" }
-    ],
-    "correctOptionId": 1
+    ]
   },
   {
     "id": 2,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "record Point(int x, int y) {}\n\nObject o = new Point(3, 4);\nif (o instanceof Point(int x, int y)) {\n    IO.println(x * y);\n}",
     "options": [
@@ -20,11 +21,11 @@
       { "id": 2, "text": "12" },
       { "id": 3, "text": "34" },
       { "id": 4, "text": "Compile error" }
-    ],
-    "correctOptionId": 2
+    ]
   },
   {
     "id": 3,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "record Pair(Object a, Object b) {}\n\nObject o = new Pair(\"hi\", 5);\nString s = switch (o) {\n    case Pair(String a, _) -> a.toUpperCase();\n    default -> \"none\";\n};\nIO.println(s);",
     "options": [
@@ -32,11 +33,11 @@
       { "id": 2, "text": "HI" },
       { "id": 3, "text": "none" },
       { "id": 4, "text": "Compile error: _ is not allowed" }
-    ],
-    "correctOptionId": 2
+    ]
   },
   {
     "id": 4,
+    "type": "multiple-choice",
     "text": "This is the entire content of Hello.java. What happens when you run: java Hello.java (Java 25)?",
     "code": "void main() {\n    IO.println(\"Hi, Java 25!\");\n}",
     "options": [
@@ -44,11 +45,11 @@
       { "id": 2, "text": "Compile error: missing class declaration" },
       { "id": 3, "text": "Compile error: main must be static" },
       { "id": 4, "text": "Only works with --enable-preview" }
-    ],
-    "correctOptionId": 1
+    ]
   },
   {
     "id": 5,
+    "type": "multiple-choice",
     "text": "What does new Child(1) print?",
     "code": "class Base {\n    Base() { IO.println(\"Base\"); }\n}\n\nclass Child extends Base {\n    Child(int v) {\n        if (v < 0) throw new IllegalArgumentException();\n        IO.println(\"check\");\n        super();\n    }\n}",
     "options": [
@@ -56,11 +57,11 @@
       { "id": 2, "text": "check, then Base" },
       { "id": 3, "text": "Only Base" },
       { "id": 4, "text": "Compile error: super() must be first" }
-    ],
-    "correctOptionId": 2
+    ]
   },
   {
     "id": 6,
+    "type": "multiple-choice",
     "text": "Does this compile without a default branch?",
     "code": "sealed interface Shape permits Circle, Square {}\nrecord Circle(double r) implements Shape {}\nrecord Square(double s) implements Shape {}\n\nString name(Shape s) {\n    return switch (s) {\n        case Circle c -> \"circle\";\n        case Square q -> \"square\";\n    };\n}",
     "options": [
@@ -68,11 +69,11 @@
       { "id": 2, "text": "No, a default branch is always required" },
       { "id": 3, "text": "No, records cannot implement sealed interfaces" },
       { "id": 4, "text": "Yes, but it warns at runtime" }
-    ],
-    "correctOptionId": 1
+    ]
   },
   {
     "id": 7,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "String s = \"\"\"\n    Hello\n      World\"\"\";\nIO.println(s.length());",
     "options": [
@@ -80,11 +81,11 @@
       { "id": 2, "text": "13" },
       { "id": 3, "text": "17" },
       { "id": 4, "text": "19" }
-    ],
-    "correctOptionId": 2
+    ]
   },
   {
     "id": 8,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "List<Integer> list = new ArrayList<>(List.of(1, 2, 3));\nlist.addFirst(0);\nIO.println(list.reversed());",
     "options": [
@@ -92,11 +93,11 @@
       { "id": 2, "text": "[3, 2, 1, 0]" },
       { "id": 3, "text": "[3, 2, 1]" },
       { "id": 4, "text": "UnsupportedOperationException" }
-    ],
-    "correctOptionId": 2
+    ]
   },
   {
     "id": 9,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "var result = Stream.of(1, 2, 3, 4, 5)\n    .gather(Gatherers.windowFixed(2))\n    .toList();\nIO.println(result);",
     "options": [
@@ -104,11 +105,11 @@
       { "id": 2, "text": "[[1, 2], [3, 4], [5]]" },
       { "id": 3, "text": "[[1, 2], [2, 3], [3, 4], [4, 5]]" },
       { "id": 4, "text": "[3, 7, 5]" }
-    ],
-    "correctOptionId": 2
+    ]
   },
   {
     "id": 10,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "static final ScopedValue<String> USER =\n    ScopedValue.newInstance();\n\nScopedValue.where(USER, \"duke\")\n    .run(() -> IO.println(USER.get()));\nIO.println(USER.isBound());",
     "options": [
@@ -116,11 +117,11 @@
       { "id": 2, "text": "duke, then false" },
       { "id": 3, "text": "null, then false" },
       { "id": 4, "text": "NoSuchElementException" }
-    ],
-    "correctOptionId": 2
+    ]
   },
   {
     "id": 11,
+    "type": "multiple-choice",
     "text": "What does this declaration do in Java 25?",
     "code": "import module java.base;",
     "options": [
@@ -131,11 +132,11 @@
       { "id": 2, "text": "Declares that the file belongs to java.base" },
       { "id": 3, "text": "Adds java.base to the module path at runtime" },
       { "id": 4, "text": "Compile error: not valid Java syntax" }
-    ],
-    "correctOptionId": 1
+    ]
   },
   {
     "id": 12,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "Object o = null;\nString s = switch (o) {\n    case null -> \"null!\";\n    case String str -> \"string\";\n    default -> \"other\";\n};\nIO.println(s);",
     "options": [
@@ -143,11 +144,11 @@
       { "id": 2, "text": "string" },
       { "id": 3, "text": "other" },
       { "id": 4, "text": "NullPointerException" }
-    ],
-    "correctOptionId": 1
+    ]
   },
   {
     "id": 13,
+    "type": "multiple-choice",
     "text": "What happens here?",
     "code": "String s = null;\nswitch (s) {\n    case \"a\" -> IO.println(\"a\");\n    default -> IO.println(\"default\");\n}",
     "options": [
@@ -155,11 +156,11 @@
       { "id": 2, "text": "Prints nothing" },
       { "id": 3, "text": "Throws NullPointerException" },
       { "id": 4, "text": "Compile error" }
-    ],
-    "correctOptionId": 3
+    ]
   },
   {
     "id": 14,
+    "type": "multiple-choice",
     "text": "What happens here?",
     "code": "Object o = \"hi\";\nString s = switch (o) {\n    case CharSequence cs -> \"cs\";\n    case String str -> \"string\";\n    default -> \"other\";\n};\nIO.println(s);",
     "options": [
@@ -167,11 +168,11 @@
       { "id": 2, "text": "Prints: string" },
       { "id": 3, "text": "Prints: other" },
       { "id": 4, "text": "Compile error: dominated case label" }
-    ],
-    "correctOptionId": 4
+    ]
   },
   {
     "id": 15,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "Thread t = Thread.ofVirtual().start(() -> {});\nt.join();\nIO.println(t.isVirtual() + \" \" + t.isDaemon());",
     "options": [
@@ -179,11 +180,11 @@
       { "id": 2, "text": "true false" },
       { "id": 3, "text": "false false" },
       { "id": 4, "text": "IllegalStateException" }
-    ],
-    "correctOptionId": 1
+    ]
   },
   {
     "id": 16,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "record P(int x) {}\n\nIO.println(new P(1).equals(new P(1))\n    + \" \" + (new P(1) == new P(1)));",
     "options": [
@@ -191,11 +192,11 @@
       { "id": 2, "text": "true false" },
       { "id": 3, "text": "false false" },
       { "id": 4, "text": "false true" }
-    ],
-    "correctOptionId": 2
+    ]
   },
   {
     "id": 17,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "Object o = \"Java 25\";\nif (o instanceof String s && s.length() > 5) {\n    IO.println(s.length());\n} else {\n    IO.println(\"short\");\n}",
     "options": [
@@ -203,11 +204,11 @@
       { "id": 2, "text": "7" },
       { "id": 3, "text": "short" },
       { "id": 4, "text": "Compile error: s is not in scope" }
-    ],
-    "correctOptionId": 2
+    ]
   },
   {
     "id": 18,
+    "type": "multiple-choice",
     "text": "What does this print?",
     "code": "record Range(int lo, int hi) {\n    Range {\n        if (lo > hi) {\n            int t = lo; lo = hi; hi = t;\n        }\n    }\n}\n\nIO.println(new Range(5, 2));",
     "options": [
@@ -215,11 +216,11 @@
       { "id": 2, "text": "Range[lo=2, hi=5]" },
       { "id": 3, "text": "Range@1b6d3586" },
       { "id": 4, "text": "Compile error: cannot assign to lo" }
-    ],
-    "correctOptionId": 2
+    ]
   },
   {
     "id": 19,
+    "type": "multiple-choice",
     "text": "Which one compiles in Java 25?",
     "code": "// A\nint _ = 1; IO.println(_);\n\n// B\ntry { risky(); }\ncatch (Exception _) { IO.println(\"failed\"); }\n\n// C\nvoid log(String _) {}\n\n// D\nrecord R(int _) {}",
     "options": [
@@ -227,11 +228,11 @@
       { "id": 2, "text": "B" },
       { "id": 3, "text": "C" },
       { "id": 4, "text": "D" }
-    ],
-    "correctOptionId": 2
+    ]
   },
   {
     "id": 20,
+    "type": "multiple-choice",
     "text": "Why can you call IO.println(...) in Java 25 without any import?",
     "options": [
       {
@@ -244,7 +245,6 @@
       },
       { "id": 3, "text": "IO is a JShell-only helper" },
       { "id": 4, "text": "IO is a static import of System.out" }
-    ],
-    "correctOptionId": 1
+    ]
   }
 ]

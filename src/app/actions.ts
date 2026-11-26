@@ -1,5 +1,6 @@
 "use server";
 
+import correctAnswers from "@/data/answers.json";
 import { questions, QUIZ_SIZE } from "@/lib/questions";
 
 export type SubmitResult =
@@ -38,10 +39,9 @@ export async function submitAnswers(
   if (!isValid) return { ok: false, error: "Please answer all questions." };
 
   // No storage yet; answers show up in the Vercel function logs.
-  const correct = answers.filter((a) =>
-    questions.some(
-      (q) => q.id === a.questionId && q.correctOptionId === a.optionId,
-    ),
+  const answerKey: Record<string, number> = correctAnswers;
+  const correct = answers.filter(
+    (a) => answerKey[a.questionId] === a.optionId,
   ).length;
 
   console.log(
